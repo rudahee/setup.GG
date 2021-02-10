@@ -1,17 +1,26 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+/*
+* COMPONENTES, SERVICIOS y ROUTING
+*/
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { SetupService } from 'src/app/services/setup/setup.service';
+import { HomeComponent } from './components/home/home.component';
 
+/*
+* FIREBASE Y REACTIVE FORMS
+*/
 import { AngularFireModule } from "@angular/fire";
 import { AngularFireAuthModule } from "@angular/fire/auth";
 import { environment } from '../environments/environment';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 
+/*
+* ANGULAR MATERIAL
+*/
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -23,7 +32,6 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { RegisterComponent } from './components/register/register.component';
 import { MySetupComponent } from './components/my-setup/my-setup.component';
 import { MatMenuModule } from '@angular/material/menu';
-import { HomeComponent } from './components/home/home.component';
 
 
 

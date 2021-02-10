@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Setup, User } from 'src/app/interfaces/Interface';
+import { Setup } from 'src/app/interfaces/Interface';
 import { AngularFireList, AngularFireDatabase } from '@angular/fire/database';
 
 
@@ -8,7 +8,9 @@ import { AngularFireList, AngularFireDatabase } from '@angular/fire/database';
   providedIn: 'root'
 })
 export class SetupService {
-
+/*
+* Este servicio contiene el CRUD del setup.
+*/
   private setupDB: AngularFireList<any>;
 
   constructor(private db: AngularFireDatabase) {
@@ -16,13 +18,15 @@ export class SetupService {
    }
 
    getSetups() {
+    //Metodo GET, obtenemos el setup del usuario loggeado.
     return this.setupDB = this.db.list('/users/'+sessionStorage.getItem('uid')+'/setup');
   }
 
-
   addOrEditSetup(setup: Setup) {
+    //Si existe un setup_key en el localStorage es que ya existe un setup, por tanto debemos actualizar.
     if (sessionStorage.getItem('setup_key') != undefined && sessionStorage.getItem('setup_key') != null) {
 
+      //Metodo UPDATE
       this.db.list('/users/'+sessionStorage.getItem('uid')+'/setup/').update(sessionStorage.getItem('setup_key'), {
         box: setup.box,
         cooler: setup.cooler,
@@ -39,6 +43,9 @@ export class SetupService {
       })
 
     } else {
+      // Si no existe el setup_key, debemos crear uno nuevo.
+
+      // Metodo CREATE
       this.setupDB.push({
         box: setup.box,
         cooler: setup.cooler,
@@ -57,6 +64,7 @@ export class SetupService {
   }
 
   removeSetup() {
+    // Metodo DELETE, tambien borramos la key del sessionStorage.
     this.db.list('/users/'+sessionStorage.getItem('uid')+'/setup').remove()
     sessionStorage.removeItem('setup_key')
   }
