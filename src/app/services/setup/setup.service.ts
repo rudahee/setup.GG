@@ -23,6 +23,7 @@ export class SetupService {
   }
 
   addOrEditSetup(setup: Setup) {
+    this.getSetups();
     //Si existe un setup_key en el localStorage es que ya existe un setup, por tanto debemos actualizar.
     if (sessionStorage.getItem('setup_key') != undefined && sessionStorage.getItem('setup_key') != null) {
 
