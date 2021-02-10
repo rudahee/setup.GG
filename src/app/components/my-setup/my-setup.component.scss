@@ -1,0 +1,56 @@
+.card {
+  width: 80%;
+  height: 80%;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.title {
+  font-size: 24pt;
+}
+
+.card-content {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.card-actions {
+  display: flex;
+  justify-content: space-around;
+}
+
+.card-signout {
+  width: 35%;
+  height: 20%;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+  padding: 3%;
+}
+
+.spacer {
+  flex-grow: 1;
+}
+
+.card-content-signout {
+  display: flex;
+  flex-flow: column nowrap;
+  padding: 2%;
+}
+
+.card-content-signout p {
+  padding-top: 2%;
+  text-align: justify;
+}
+
+.card-footer-signout {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-bottom: 2%;
+}
