@@ -21,7 +21,7 @@ export class SetupService {
 
 
   addOrEditSetup(setup: Setup) {
-    if (sessionStorage.getItem('setup_key') != undefined || sessionStorage.getItem('setup_key') != null) {
+    if (sessionStorage.getItem('setup_key') != undefined && sessionStorage.getItem('setup_key') != null) {
 
       this.db.list('/users/'+sessionStorage.getItem('uid')+'/setup/').update(sessionStorage.getItem('setup_key'), {
         box: setup.box,
