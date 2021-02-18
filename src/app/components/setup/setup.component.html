@@ -1,0 +1,31 @@
+<button [cdkCopyToClipboard]="this.url" mat-fab color="accent" class="button-float"  (click)="share()">
+  <mat-icon>share</mat-icon>
+</button>
+<main>
+  <mat-card class="card">
+    <mat-card-header>
+      <mat-card-title class="title">{{setup.name}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="card-content">
+      <p><strong>Processor:</strong> {{setup.processor}}</p>
+      <p><strong>Power Supply:</strong> {{setup.power_supply}}</p>
+      <p><strong>Motherboard:</strong> {{setup.motherboard}}</p>
+      <p><strong>Cooler:</strong> {{setup.cooler}}</p>
+      <p><strong>GPU:</strong> {{setup.graphic_card}}</p>
+      <p><strong>RAM:</strong> {{setup.ram}}</p>
+      <p><strong>HDD:</strong> {{setup.hdd}}</p>
+      <p><strong>SDD:</strong> {{setup.sdd}}</p>
+      <p><strong>Box:</strong> {{setup.box}}</p>
+      <p><strong>Keyboard:</strong> {{setup.keyboard}}</p>
+      <p><strong>Mouse:</strong> {{setup.mouse}}</p>
+      <mat-divider></mat-divider>
+    </mat-card-content>
+    <mat-card-actions class="card-actions">
+      <button mat-raised-button color="primary" [routerLink]="['/all-setups']"> Back </button>
+      <button mat-raised-button color="primary" [routerLink]="['/edit/'+this.key]"> Edit </button>
+      <div class="spacer"></div>
+      <button mat-raised-button color="warn" (click)="delete()"> Delete </button>
+
+    </mat-card-actions>
+  </mat-card>
+</main>

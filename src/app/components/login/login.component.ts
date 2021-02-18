@@ -43,20 +43,12 @@ export class LoginComponent implements OnInit {
     this.loginForm.controls.email.setValue('');
     this.loginForm.controls.password.setValue('');
 
-    setTimeout(() => {this.router.navigate(['/my-setup'])},  1000) //El motivo es que es mas rapida la navegacion que el servicio.
-
-  }
-
-  signInWithGoogle() {
-    /*
-    * Este metodo solo llama al servicio ya que no necesita nada para hacer el login.
-    */
-    this.authenticationService.SignInWithGoogle().then(
-      res => {
-        setTimeout(() => {this.router.navigate(['/my-setup'])},  1000) //El motivo es que es mas rapida la navegacion que el servicio.
-
-        this.router.navigate(['/my-setup']);
+    setTimeout(() => {
+      if (this.authenticationService.displayName != undefined) {
+        this.router.navigate(['/logged'])
       }
-    );
+    },  2000) //El motivo es que es mas rapida la navegacion que el servicio.
+
   }
+
 }

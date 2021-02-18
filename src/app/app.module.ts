@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { SetupService } from 'src/app/services/setup/setup.service';
 import { HomeComponent } from './components/home/home.component';
+import { HttpClientModule } from '@angular/common/http';
 
 /*
 * FIREBASE Y REACTIVE FORMS
@@ -30,8 +31,15 @@ import { MatDividerModule } from '@angular/material/divider';
 import { HeaderComponent } from './components/header/header.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RegisterComponent } from './components/register/register.component';
-import { MySetupComponent } from './components/my-setup/my-setup.component';
 import { MatMenuModule } from '@angular/material/menu';
+import { AllSetupsComponent } from './components/all-setups/all-setups.component';
+import { SetupComponent } from './components/setup/setup.component';
+import { ClipboardModule } from '@angular/cdk/clipboard';
+
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { AddComponent } from './components/add/add.component';
+import { EditComponent } from './components/edit/edit.component';
+import { LoggedComponent } from './components/logged/logged.component';
 
 
 
@@ -41,17 +49,23 @@ import { MatMenuModule } from '@angular/material/menu';
     LoginComponent,
     HeaderComponent,
     RegisterComponent,
-    MySetupComponent,
-    HomeComponent
+    HomeComponent,
+    AllSetupsComponent,
+    SetupComponent,
+    AddComponent,
+    EditComponent,
+    LoggedComponent
   ],
   imports: [
+    ClipboardModule,
     ReactiveFormsModule,
+    MatSnackBarModule,
     BrowserModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     BrowserAnimationsModule,
-
+    HttpClientModule,
     MatCardModule,
     MatMenuModule,
     MatFormFieldModule,

@@ -1,0 +1,32 @@
+main {
+  width: 100%;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  align-items: start;
+  padding-top: 3%;
+}
+
+.card {
+  margin-bottom: 5%;
+  width: 24%;
+  height: fit-content;
+  display:flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.content {
+  width: fit-content;
+  text-align: left
+}
+
+.button-float {
+  z-index: 1;
+	position:fixed;
+	width:60px;
+	height:60px;
+	bottom:40px;
+	right:40px;
+}

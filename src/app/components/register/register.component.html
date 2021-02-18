@@ -1,4 +1,4 @@
-<mat-card *ngIf="!logged" class="card">
+<mat-card class="card">
   <mat-card-header class="card-header">
     <mat-card-title class="title">Sign Up!</mat-card-title>
   </mat-card-header>
@@ -28,10 +28,4 @@
   <mat-card-footer class="card-footer">
     Already have an account? <a [routerLink]="['/login']">Sign In!</a>
   </mat-card-footer>
-</mat-card>
-
-<mat-card *ngIf="logged" class="card-logged">
-  <mat-card-header class="card-header-logged">
-    Hey! You are already logged in! You can go to&nbsp;<a [routerLink]="['/my-setup']">your setup here</a>
-  </mat-card-header>
 </mat-card>

@@ -1,0 +1,21 @@
+<button mat-fab color="accent" class="button-float"  [routerLink]="['/add']">
+  <mat-icon>add</mat-icon>
+</button>
+<main>
+  <mat-card class="card" *ngFor="let setup of allSetups">
+    <mat-card-header>
+      <mat-card-title>{{setup.name | titlecase}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="content">
+      <p *ngIf="setup.processor.length > 17"><strong>Processor:</strong> {{setup.processor.substring(0, 18)}}...</p>
+      <p *ngIf="setup.processor.length < 17"><strong>Processor:</strong> {{setup.processor}}</p>
+      <p *ngIf="setup.graphic_card.length < 19"><strong>GPU:</strong> {{setup.graphic_card}}</p>
+      <p *ngIf="setup.graphic_card.length > 19"><strong>GPU:</strong> {{setup.graphic_card.substring(0, 19)}}...</p>
+      <p *ngIf="setup.ram.length < 19"><strong>RAM:</strong> {{setup.ram}}</p>
+      <p *ngIf="setup.ram.length > 19"><strong>RAM:</strong> {{setup.ram.substring(0, 19)}}...</p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" [routerLink]="'/setup/' + setup.$key">See More >></button>
+    </mat-card-actions>
+  </mat-card>
+</main>

@@ -1,17 +1,24 @@
 <mat-toolbar color="primary" role="heading">
-  <button mat-icon-button class="example-icon" [matMenuTriggerFor]="menu"  aria-label="Example icon-button with menu icon">
-    <mat-icon>menu</mat-icon>
+  <button mat-icon-button class="example-icon" [matMenuTriggerFor]="menu" #menuTrigger="matMenuTrigger">
+    <mat-icon>{{menuTrigger.menuOpen ? 'expand_more' : 'menu'}}</mat-icon>
   </button>
   <mat-menu #menu="matMenu">
     <button mat-menu-item [routerLink]="['/home']">Home</button>
-    <button mat-menu-item [routerLink]="['/my-setup']">My Setup</button>
+    <button mat-menu-item [routerLink]="['/add']">Create Setup</button>
+    <button mat-menu-item [routerLink]="['/all-setups']">All Setups</button>
+    <button mat-menu-item [matMenuTriggerFor]="LoginOptions">Loggin Methods</button>
+  </mat-menu>
+  <mat-menu #LoginOptions="matMenu">
+    <button mat-menu-item [routerLink]="['/login']">Loggin</button>
+    <button mat-menu-item [routerLink]="['/register']">Register</button>
+    <button mat-menu-item [routerLink]="['/logged']">Logged?</button>
   </mat-menu>
   <span [routerLink]="['/home']">Setup.GG</span>
   <span class="example-spacer"></span>
-  <button mat-icon-button *ngIf="!logged || logged == undefined" [routerLink]="['/login']">
-    <mat-icon>login</mat-icon>
-  </button>
-  <button mat-icon-button *ngIf="logged" (click)="signOut()" [routerLink]="['']">
-    <mat-icon>logout</mat-icon>
-  </button>
+  <span *ngIf="displayName == undefined || displayName == null">
+    <button mat-raised-button color="accent" (click)="authWithGoogle()">Sign In With Google</button>
+  </span>
+  <span *ngIf="displayName != undefined && displayName != null">
+    <button mat-raised-button color="accent" (click)="signOut()">Sign Out</button>
+  </span>
 </mat-toolbar>

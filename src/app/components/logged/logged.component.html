@@ -1,0 +1,34 @@
+<main>
+  <mat-card class="card" *ngIf="displayName != undefined">
+    <mat-card-header class="card-header">
+      <mat-card-title>Hey!</mat-card-title>
+      <mat-card-subtitle>Congratulations!</mat-card-subtitle>
+    </mat-card-header>
+    <div class="spacer"></div>
+    <mat-card-content class="card-content">
+      <p>{{displayName }}, you have successfully logged in!</p>
+    </mat-card-content>
+      <mat-card-footer class="card-footer">
+        <button mat-raised-button color="primary" [routerLink]="['/all-setups']">See all Setups!</button>
+        <span class="spacer"></span>
+        <button mat-raised-button color="primary" (click)="logout()">Logout</button>
+        <button mat-raised-button color="primary" (click)="delete()">Delete Account</button>
+      </mat-card-footer>
+  </mat-card>
+
+  <mat-card class="card" *ngIf="displayName == undefined">
+    <mat-card-header class="card-header">
+      <mat-card-title>Hey!</mat-card-title>
+    </mat-card-header>
+    <div class="spacer"></div>
+    <mat-card-content class="card-content">
+      <p>You are not logged in</p>
+    </mat-card-content>
+      <mat-card-footer class="card-footer">
+        <button mat-raised-button color="primary" [routerLink]="['/login']">Login</button>
+        <button mat-raised-button color="primary" [routerLink]="['/register']">Register</button>
+        <span class="spacer"></span>
+        <button mat-raised-button color="primary" [routerLink]="['/all-setups']">See all Setups!</button>
+      </mat-card-footer>
+  </mat-card>
+</main>

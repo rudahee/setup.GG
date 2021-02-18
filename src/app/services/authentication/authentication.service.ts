@@ -1,9 +1,10 @@
-import { EventEmitter, Output } from '@angular/core';
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { AngularFireList, AngularFireDatabase } from '@angular/fire/database';
+import { AngularFireDatabase } from '@angular/fire/database';
+import { Router } from '@angular/router';
 import { default as def } from 'firebase';
-
+import { User } from 'src/app/interfaces/Interface';
+import Swal from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root'
@@ -13,35 +14,29 @@ export class AuthenticationService {
 /*
 * Este servicio se encarga de la gestion de los usuarios.
 */
+  displayName: string;
+  user: User;
 
-  // EventEmitter para el header.
-  logged = false;
-  @Output() loggedEmitter = new EventEmitter<boolean>();
-
-  userDB: AngularFireList<any>;
-
-  constructor(private angularFireAuth: AngularFireAuth, private db: AngularFireDatabase) {
-    this.isLogged()
+  constructor(private angularFireAuth: AngularFireAuth, private db: AngularFireDatabase, private router: Router) {
   }
 
-  async SignInWithGoogle() {
+  public SignInWithGoogle() {
     /*
     * Inicio de sesion con google a traves de un pop-up
     */
-    const provider = new def.auth.GoogleAuthProvider()
-    await this.angularFireAuth.signInWithPopup(provider).then(
+
+    this.angularFireAuth.signInWithPopup(new def.auth.GoogleAuthProvider()).then(
       firebaseUser => {
         // Guardamos el usuario con su uid en la base de datos y en el sessionStorage.
-        this.userDB = this.db.list('/users/'+firebaseUser.user.uid)
-
-        sessionStorage.setItem('uid', firebaseUser.user.uid);
-
-        //Pone el estado de loggeado a true, y emite los cambios.
-        this.setLogged(true)
-
-        this.userDB.push({
-          'uid': firebaseUser.user.uid,
-          'username': firebaseUser.user.displayName
+        this.displayName = firebaseUser.user.displayName;
+        setTimeout(_ => this.router.navigate(['/logged']), 1000)
+      }
+    ).catch (
+      reject => {
+        Swal.fire({
+          title: "Error",
+          text: reject,
+          icon: "error"
         })
       }
     )
@@ -51,56 +46,75 @@ export class AuthenticationService {
     /*
     * Registro a traves de email y contraseña.
     */
-    this.angularFireAuth.createUserWithEmailAndPassword(user_email, password).then(
-      firebaseUser => {
-        // Guardamos el usuario en la base de datos y en el sessionStorage.
-        this.userDB = this.db.list('/users/'+firebaseUser.user.uid)
+    this.angularFireAuth.createUserWithEmailAndPassword(user_email, password)
+    .then(
+      res => {
+        res.user.updateProfile({
+          displayName: nick
+        });
 
-        sessionStorage.setItem('uid', firebaseUser.user.uid);
-
-        this.userDB.push({
-          'uid': firebaseUser.user.uid,
-          'username': nick
-        })
-
-        // Una vez registrados, llamamos al login, para que se loguee automaticamente.
-        this.SignIn(user_email, password);
-      });
-    }
+        Swal.fire({
+          title: "Success",
+          text: "Register Success",
+          icon: "success",
+          showConfirmButton: true,
+          confirmButtonText: "Login now!",
+          showCancelButton: true,
+          cancelButtonText: "Close"
+        }).then(
+          result => {
+            if (result.isConfirmed) {
+              this.SignIn(user_email, password)
+            }
+          }
+        )
+      }
+    )
+    .catch(
+      reject => {
+        Swal.fire({
+          title: "Error",
+          text: reject,
+          icon: "error"
+        });
+      }
+    )
+  }
 
   SignIn(email: string, password: string) {
     /*
     * Inicio de sesion a traves de email y contraseña.
     */
-    this.angularFireAuth.signInWithEmailAndPassword(email, password).then(
-      firebaseUser => {
-        // Cuando se inicie sesion correctamente, guarda el uid del usuario en el sessionStorage.
-        sessionStorage.setItem('uid', firebaseUser.user.uid);
-      }
-    )
+    this.angularFireAuth.signInWithEmailAndPassword(email, password)
+      .then(
+        firebaseUser => {
+          this.angularFireAuth.currentUser.then(
+            fbUser => {
+              this.displayName = fbUser.displayName;
+            }
+          );
+          setTimeout(_ => this.router.navigate(['/logged']), 1000)
+        }
+      ).catch (
+        reject => {
+          Swal.fire({
+            title: "Error",
+            text: reject,
+            icon: "error"
+          })
+        }
+      )
     //Pone el estado de loggeado a true, y emite los cambios.
-    this.setLogged(true)
   }
 
   SignOut() {
     /*
     * Este metodo permite cerrar la sesion, y emite los cambios correspondientes en logged y borra el sesionStorage
     */
-    this.angularFireAuth
-    .signOut();
-    this.setLogged(false);
-    sessionStorage.clear();
-  }
+    this.angularFireAuth.signOut
+    this.displayName = undefined;
+    this.router.navigate(['/home']);
 
-  isLogged() {
-    //Emite los cambios en logged
-    this.loggedEmitter.emit(this.logged)
-  }
-
-  setLogged(status: boolean) {
-    //Cambia el estado de logged y llama al metodo que emite los cambios.
-    this.logged = status;
-    this.isLogged();
   }
 
   deleteAccount() {
@@ -110,10 +124,39 @@ export class AuthenticationService {
     */
     this.angularFireAuth.currentUser.then(
       user => {
-        user.delete()
+        Swal.fire({
+          title: "Warning!",
+          text: "Are you sure to delete this account?",
+          icon: "warning",
+          showConfirmButton: true,
+          confirmButtonText: "Yes I want",
+          showCancelButton: true,
+          cancelButtonText: "Cancel",
+          allowEscapeKey: false,
+          allowOutsideClick: false
+        }).then(
+          result => {
+            if (result.isConfirmed) {
+              this.router.navigate(['/home'])
+              this.displayName = undefined;
+        }})
+          user.delete()
       }
     )
-    sessionStorage.clear();
-    this.setLogged(false);
+  }
+
+  public GetCurrentUser(): string {
+    let displayName;
+    this.angularFireAuth.currentUser.then(
+      userFB => {
+        if (userFB != null) {
+          displayName = userFB.displayName;
+        } else {
+          displayName = undefined;
+        }
+      }
+    );
+
+    return displayName;
   }
 }

@@ -15,9 +15,7 @@ export class HomeComponent implements OnInit {
   constructor(public authenticationService:AuthenticationService) { }
 
   ngOnInit(): void {
-    if (!this.authenticationService.logged) {
-      sessionStorage.clear()
-    }
+
   }
 
 }

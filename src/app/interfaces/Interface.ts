@@ -1,8 +1,4 @@
-export interface User {
-  $key?: string;
-  uid: string
-  username: string;
-}
+
 
 export interface Setup {
   $key?: string;
@@ -19,5 +15,11 @@ export interface Setup {
   keyboard?: string;
   mouse?: string;
   ssd?: string;
-  uid: string
+}
+
+
+export interface User {
+  uuid: string;
+  email: string;
+  display_name: string;
 }
